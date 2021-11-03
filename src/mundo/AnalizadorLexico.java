@@ -221,5 +221,15 @@ public class AnalizadorLexico {
 	{
 		return  (caracter >= 'A' && caracter <= 'Z') || (caracter >= 'a' && caracter <= 'z');
 	}
+	
+	/**
+     * Determina si un carácter es una letra
+     * @param caracter - Carácter que se va a analizar - caracter!=null,
+     * @return true o false según el carácter sea una letra o no
+     */
+	public boolean esMayuscula (char caracter )
+	{
+		return  (caracter >= 'A' && caracter <= 'Z');
+	}
 
 }
