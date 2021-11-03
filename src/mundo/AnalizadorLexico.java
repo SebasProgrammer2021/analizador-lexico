@@ -223,13 +223,23 @@ public class AnalizadorLexico {
 	}
 	
 	/**
-     * Determina si un carácter es una letra
+     * Determina si un carácter es una letra Mayuscula
      * @param caracter - Carácter que se va a analizar - caracter!=null,
-     * @return true o false según el carácter sea una letra o no
+     * @return true o false según el carácter sea una letra Mayuscula o no
      */
 	public boolean esMayuscula (char caracter )
 	{
 		return  (caracter >= 'A' && caracter <= 'Z');
+	}
+	
+	/**
+     * Determina si un carácter es una letra Minuscula
+     * @param caracter - Carácter que se va a analizar - caracter!=null,
+     * @return true o false según el carácter sea una letra Minuscula o no
+     */
+	public boolean esMinuscula (char caracter )
+	{
+		return (caracter >= 'a' && caracter <= 'z');
 	}
 
 }
