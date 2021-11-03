@@ -202,6 +202,17 @@ public class AnalizadorLexico {
 		return token;
 	}
 	
+//	necesitamos validar esMayuscula
+//	public boolean esMayuscula (char caracter )
+//	{
+//		return  caracter >= '0' && caracter <= '9';
+//	}
+
+//	necesitamos validar esMinuscula
+	
+//	OBJ: revisar si las pals estan bien escritas
+	
+//	siempre vamos a devolver un token en los metodo extraer
 	/**
      * Determina si un carácter es un dígito
      * @param caracter - Carácter que se va a analizar - caracter!=null,

@@ -1,0 +1,5 @@
+#Archivos Compilados
+*.class
+
+#Ignora Archivos del sistema Mac
+.DS_store
