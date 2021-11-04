@@ -26,7 +26,7 @@ public class Token {
 //	agregar las demas constantes para los otros tipos
     final public static String ENTERO = "Entero";
     final public static String OPERADORADITIVO = "Operador aditivo";
-    final public static String IDENTIFICADOR = "Identificador";
+    final public static String IDENTIFICADOR = "Idcador";
     final public static String NORECONOCIDO = "No reconocido";
     
  
