@@ -65,41 +65,11 @@ public class AnalizadorLexico {
 			return token;
     	
     	// Intenta extraer un operador aditivo
-/*		token = extraerOperadorAditivo( cod, i);
-		if ( token != null )
-			return token;
-*/
-		// Intenta extraer un operador relacional
-		token = extraerOperadorRelacional( cod, i);
-		if ( token != null )
-			return token;
-
-		// Intenta extraer un identificador
-		token = extraerIdentificador( cod, i);
-		if ( token != null )
-			return token;
-		
-		// Intenta Extraer un Separador de Sentencia
-		token = extraerSeparadorDeSentencia( cod, i);
-		if ( token != null )
-			return token;
-		
-		// Intenta Extraer un operador Incial o Terminal
-		token = extraerOperadorInicialTerminal( cod, i);
+		token = extraerOperadorAditivo( cod, i);
 			if ( token != null )
 			return token;
 			
-		// Intenta Extraer un operador aritmetico
-		token = extraerOperadorAritmetico( cod, i);
-			if ( token != null )
-			return token;
-			
-		// Intenta Extraer un operador Logico
-		token = extraerOperadorLogico( cod, i);
-			if ( token != null )
-			return token;
-			
-		// Intenta Extraer un operador de Asignacion
+		// Intenta extraer un operador de asignación
 		token = extraerOperadorAsignacion( cod, i);
 			if ( token != null )
 			return token;
@@ -427,6 +397,7 @@ public class AnalizadorLexico {
 		Token token = new Token( lexema, Token.NORECONOCIDO, j );
 		return token;
 	}
+	
 	
 	/**
      * Determina si un carácter es un dígito
