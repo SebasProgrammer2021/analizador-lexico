@@ -400,7 +400,7 @@ public class AnalizadorLexico {
      */	
 	public Token extraerOperadorDeCerrar ( String cod, int i)
 	{
-		if( cod.charAt(i) =='[' ||cod.charAt(i) =='(' || cod.charAt(i) =='{' ){
+		if( cod.charAt(i) ==']' ||cod.charAt(i) ==')' || cod.charAt(i) =='}' ){
 			int j=i+1;
 			if( j<cod.length() &&  cod.charAt(j) =='<'){		
 				j++;
