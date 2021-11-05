@@ -30,10 +30,18 @@ public class Token {
     final public static String DOUBLE = "-Deci.L";
     final public static String BOOLEAN = "?T,F_?";
     final public static String OPERADORADITIVO = "Operador aditivo";
-    final public static String OPERADORASIGNACION = "Operador de asignación";
-    final public static String IDENTIFICADOR = "Identificador";
+    final public static String IDENTIFICADOR = "Idcador";
     final public static String NORECONOCIDO = "No reconocido";
+    
  
+    final public static String SEPARADORSENTENCIA = "Operador Separado de sentencia";
+    final public static String OPERADORINICIALTERMINAL = "Operador Inicial o Terminal";
+    final public static String OPERADORARITMETICO = "Operador Aritmetico";
+    final public static String OPERADORRELACIONAL = "Operador Relacional";
+    final public static String OPERADORLOGICO = "Operador Logico";
+    final public static String OPERADORASIGNACION = "Operador de asignación";
+    final public static String OPERADORABRIR = "Operador de Abrir";
+    final public static String OPERADORCERRAR = "Operador de Cerrar";
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
