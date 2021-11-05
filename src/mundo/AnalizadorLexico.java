@@ -83,6 +83,25 @@ public class AnalizadorLexico {
 		token = extraerNoReconocido( cod, i);
 		return token;
     }
+    
+    /**
+     * Intenta extraer un identificador de la cadena cod a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer un identficador - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer un identificador  - 0<=indice<codigo.length()
+     * @return el token identificaror o NULL, si el token en la posición dada no es un identificador. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+//	public Token extraerIdentificador ( String cadena, int i)
+//	{
+//		if( cadena.charAt(i)=='S' ){
+//			int j=i+1;
+//		    String lex =  cadena.substring( i, j);			    
+//		    Token token = new Token( lex, Token.IDENTIFICADOR, j );
+//			return token;			
+//		}	
+//		return null;
+//	}
 
     /**
      * Intenta extraer un entero de la cadena cod a partir de la posición i,
