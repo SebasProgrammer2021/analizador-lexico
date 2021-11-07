@@ -46,6 +46,7 @@ public class Token {
     final public static String PALABRAIF = "Palabra de Decisión If (Si)";
     final public static String PALABRASWITCH = "Palabra de Decisión Switch(CASE)";
     final public static String PALABRACLASE= "Identificador de Clase(KLSS)";
+    final public static String PALABRADOWHILE= "Palabra de Ciclo Do While(Du)";
     
     
     

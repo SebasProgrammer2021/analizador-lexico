@@ -136,6 +136,11 @@ public class AnalizadorLexico {
 		token = extraePalabraClase(cod, i);
 		if (token != null)
 			return token;
+		
+		// Intenta Extraer la palabra Do While(Du)
+		token = extraePalabraDoWhile(cod, i);
+		if (token != null)
+			return token;
 
 		// Extrae un token no reconocido
 		token = extraerNoReconocido(cod, i);
@@ -145,7 +150,7 @@ public class AnalizadorLexico {
 
 
 
-	
+
 
 	/**
      * Intenta extraer un entero de la cadena cod a partir de la posici�n i,
@@ -550,17 +555,24 @@ private Token extraePalabraClase(String cod, int i) {
 		return null;
 	}
 
-	/*
-	
-    "Identificador de Clase(KLSS)";
-	
-	*/
-	
-	
-	
-	
 
+public Token extraePalabraDoWhile(String cod, int i) {
 	
+	int j = i;
+	if (cod.charAt(i) == 'D') {
+		j++;
+		if (j < cod.length() && cod.charAt(j) == 'u') {
+			j++;
+		
+				String lex = cod.substring(i, j);
+				Token token = new Token(lex, Token.PALABRADOWHILE, j);
+				return token;
+			
+		}
+	}
+	return null;
+}
+
 	
 	
 	
