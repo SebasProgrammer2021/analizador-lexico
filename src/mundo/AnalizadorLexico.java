@@ -569,6 +569,7 @@ public class AnalizadorLexico {
 		return null;
 	}
 
+	
 	/**
 	 * Intenta extraer un Operador de de abrir de la cadena cod a partir de la
 	 * posición i, basándose en el Autómata
