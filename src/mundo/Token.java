@@ -1,11 +1,11 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * $Id$
- * Universidad del Quindío (Armenia - Colombia)
- * Programa de Ingeniería de Sistemas y Computación
+ * Universidad del Quindï¿½o (Armenia - Colombia)
+ * Programa de Ingenierï¿½a de Sistemas y Computaciï¿½n
  *
- * Asignatura: Teoría de Lenguajes Formales
+ * Asignatura: Teorï¿½a de Lenguajes Formales
  * Ejercicio: AnalizadorLexico
- * Diseño original por: Leonardo A. Hernández R. - Agosto 2008 - Marzo 2009
+ * Diseï¿½o original por: Leonardo A. Hernï¿½ndez R. - Agosto 2008 - Marzo 2009
  * Modificado y usado por: Claudia E. Quiceno R- Julio 2021
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
@@ -41,9 +41,22 @@ public class Token {
     final public static String OPERADORARITMETICO = "Operador Aritmetico";
     final public static String OPERADORRELACIONAL = "Operador Relacional";
     final public static String OPERADORLOGICO = "Operador Logico";
-    final public static String OPERADORASIGNACION = "Operador de asignación";
+    final public static String OPERADORASIGNACION = "Operador de asignaciï¿½n";
     final public static String OPERADORABRIR = "Operador de Abrir";
     final public static String OPERADORCERRAR = "Operador de Cerrar";
+    
+    
+    // Ciclos y condicionales . Palabras reservadas
+    final public static String PALABRAWHILE = "Palabra de Ciclo While (/FASES)";
+    final public static String PALABRAFOR = "Palabra de Ciclo For (-fr)";
+    final public static String PALABRAIF = "Palabra de DecisiÃ³n If (Si)";
+    final public static String PALABRASWITCH = "Palabra de DecisiÃ³n Switch(CASE)";
+    final public static String PALABRACLASE= "Identificador de Clase(KLSS)";
+    final public static String PALABRADOWHILE= "Palabra de Ciclo Do While(Du)";
+    
+    
+    
+    
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
@@ -58,7 +71,7 @@ public class Token {
     private String tipo;
 
     /**
-     * posición del siguiente lexema
+     * posiciï¿½n del siguiente lexema
      */
     private int indiceSiguiente;
 
@@ -69,7 +82,7 @@ public class Token {
      * Constructor de un token
      * @param elLexema - cadena - laCadena != null
      * @param elTipo - tipo del token - elTipo != null
-     * @param elIndiceSiguiente - posición del siguiente token - laPosicionSiguiente > 0
+     * @param elIndiceSiguiente - posiciï¿½n del siguiente token - laPosicionSiguiente > 0
      */
     public Token( String elLexema, String elTipo, int elIndiceSiguiente )
     {
@@ -79,20 +92,20 @@ public class Token {
     }
 
     // -----------------------------------------------------------------
-    // Métodos
+    // Mï¿½todos
     // -----------------------------------------------------------------
 
     /**
-     * Entrega la información del token
-     * @return Descripción del token
+     * Entrega la informaciï¿½n del token
+     * @return Descripciï¿½n del token
      */
     public String darDescripcion( )
     {
-        return "Token: " + lexema + "     Tipo: " + tipo + "     Índice del siguiente: " + indiceSiguiente;
+        return "Token: " + lexema + "     Tipo: " + tipo + "     ï¿½ndice del siguiente: " + indiceSiguiente;
     }
 
     /**
-     * Método que retorna el lexema del token
+     * Mï¿½todo que retorna el lexema del token
      * @return el lexema del token
      */
     public String darLexema( )
@@ -101,8 +114,8 @@ public class Token {
     }
 
     /**
-     * Método que retorna la posición del siguiente lexema
-     * @return posición del siguiente token
+     * Mï¿½todo que retorna la posiciï¿½n del siguiente lexema
+     * @return posiciï¿½n del siguiente token
      */
     public int darIndiceSiguiente( )
     {
@@ -110,7 +123,7 @@ public class Token {
     }
 
     /**
-     * Método que retorna el tipo del token
+     * Mï¿½todo que retorna el tipo del token
      * @return el tipo del token
      */
     public String darTipo( )

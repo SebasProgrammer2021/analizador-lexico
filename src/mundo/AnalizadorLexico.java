@@ -1,11 +1,11 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * $Id$
- * Universidad del Quindío (Armenia - Colombia)
- * Programa de Ingeniería de Sistemas y Computación
+ * Universidad del Quindï¿½o (Armenia - Colombia)
+ * Programa de Ingenierï¿½a de Sistemas y Computaciï¿½n
  *
- * Asignatura: Teoría de Lenguajes Formales
+ * Asignatura: Teorï¿½a de Lenguajes Formales
  * Ejercicio: AnalizadorLexico
- * Diseño original por: Leonardo A. Hernández R. - Agosto 2008 - Marzo 2009
+ * Diseï¿½o original por: Leonardo A. Hernï¿½ndez R. - Agosto 2008 - Marzo 2009
  * Modificado y usado por: Claudia E. Quiceno R- Julio 2021
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
@@ -16,12 +16,10 @@ import java.lang.ProcessBuilder.Redirect.Type;
 import java.util.ArrayList;
 
 /**
- * Clase que modela un analizador léxico
+ * Clase que modela un analizador lï¿½xico
  */
 
 public class AnalizadorLexico {
-
-	// -----------------------------------------------------------------
 	// Métodos
 	// -----------------------------------------------------------------
 
@@ -40,6 +38,7 @@ public class AnalizadorLexico {
 
 		// Ciclo para extraer todos los tokens
 		while (i < cod.length()) {
+
 			// Extrae el token de la posición i
 			token = extraerSiguienteToken(cod, i);
 			vectorTokens.add(token);
@@ -95,16 +94,17 @@ public class AnalizadorLexico {
 		/*
 		 * token = extraerOperadorAditivo( cod, i); if ( token != null ) return token;
 		 */
-		// Intenta extraer un operador relacional
-		token = extraerOperadorRelacional(cod, i);
-		if (token != null)
-			return token;
-
-//		metodos de ejemplo
+		
 //		// Intenta extraer un identificador
 //		token = extraerIdentificador(cod, i);
 //		if (token != null)
 //			return token;
+		
+//		METODOS OPERADORES-----------------------------------
+		// Intenta extraer un operador relacional
+		token = extraerOperadorRelacional(cod, i);
+		if (token != null)
+			return token;
 
 		// Intenta Extraer un Separador de Sentencia
 		token = extraerSeparadorDeSentencia(cod, i);
@@ -140,11 +140,42 @@ public class AnalizadorLexico {
 		token = extraerOperadorDeCerrar(cod, i);
 		if (token != null)
 			return token;
+//		METODOS OPERADORES-----------------------------------
 
+//		METODOS CICLOS---------------------------------------
+		// Intenta Extraer la palabra while /FASES
+		token = extraePalabraWhile(cod, i);
+		if (token != null)
+			return token;
+		// Intenta Extraer la palabra for -fr
+		token = extraePalabraFor(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra if (Si)
+		token = extraePalabraIf(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra Switch (CASE)
+		token = extraePalabraSwitch(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra Clase (KLSS)
+		token = extraePalabraClase(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra Do While(Du)
+		token = extraePalabraDoWhile(cod, i);
+		if (token != null)
+			return token;
+//		METODOS CICLOS---------------------------------------
+		
 		// Extrae un token no reconocido
 		token = extraerNoReconocido(cod, i);
 		return token;
-
 	}
 
 //	METODOS PALABRAS RESERVADAS-----------------------------------
@@ -284,7 +315,7 @@ public class AnalizadorLexico {
 					if (nextChar < cadena.length() && cadena.charAt(nextChar) == '?') {
 						nextChar++;
 						String lexema = cadena.substring(i, nextChar);
-						Token token = new Token(lexema, Token.DOUBLETYPE, nextChar);
+						Token token = new Token(lexema, Token.BOOLEANTYPE, nextChar);
 						return token;
 					}
 				}
@@ -345,6 +376,8 @@ public class AnalizadorLexico {
 	 *         es un operador aditivo.El Token se compone de el lexema, el tipo y la
 	 *         posición del siguiente lexema.
 	 */
+	
+	
 	/*
 	 * public Token extraerOperadorAditivo ( String cod, int i ) { if( cod.charAt(i)
 	 * =='+' || cod.charAt(i) =='-'){ int j=i+1; String lex = cod.substring( i, j);
@@ -569,17 +602,16 @@ public class AnalizadorLexico {
 		return null;
 	}
 
-	
 	/**
 	 * Intenta extraer un Operador de de abrir de la cadena cod a partir de la
-	 * posición i, basándose en el Autómata
+	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
 	 * 
-	 * @param cod - código al cual se le va a intentar extraer un abrir -
+	 * @param cod - cï¿½digo al cual se le va a intentar extraer un abrir -
 	 *            codigo!=null
-	 * @param i   - posición a partir de la cual se va a intentar extraer un abrir -
-	 *            0<=indice<codigo.length()
-	 * @return el token abrir o NULL, si el token en la posición dada no es un
-	 *         abrir. El Token se compone de el lexema, el tipo y la posición del
+	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un abrir
+	 *            - 0<=indice<codigo.length()
+	 * @return el token abrir o NULL, si el token en la posiciï¿½n dada no es un
+	 *         abrir. El Token se compone de el lexema, el tipo y la posiciï¿½n del
 	 *         siguiente lexema.
 	 */
 	public Token extraerOperadorDeAbrir(String cod, int i) {
@@ -598,14 +630,14 @@ public class AnalizadorLexico {
 
 	/**
 	 * Intenta extraer un Operador de de abrir de la cadena cod a partir de la
-	 * posición i, basándose en el Autómata
+	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
 	 * 
-	 * @param cod - código al cual se le va a intentar extraer un abrir -
+	 * @param cod - cï¿½digo al cual se le va a intentar extraer un abrir -
 	 *            codigo!=null
-	 * @param i   - posición a partir de la cual se va a intentar extraer un abrir -
-	 *            0<=indice<codigo.length()
-	 * @return el token abrir o NULL, si el token en la posición dada no es un
-	 *         abrir. El Token se compone de el lexema, el tipo y la posición del
+	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un abrir
+	 *            - 0<=indice<codigo.length()
+	 * @return el token abrir o NULL, si el token en la posiciï¿½n dada no es un
+	 *         abrir. El Token se compone de el lexema, el tipo y la posiciï¿½n del
 	 *         siguiente lexema.
 	 */
 	public Token extraerOperadorDeCerrar(String cod, int i) {
@@ -615,6 +647,164 @@ public class AnalizadorLexico {
 				j++;
 				String lex = cod.substring(i, j);
 				Token token = new Token(lex, Token.OPERADORCERRAR, j);
+				return token;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Este método valida la palabra /FASES de nuestro lenguage
+	 * 
+	 * @param cod
+	 * @param i
+	 * @return token
+	 */
+	public Token extraePalabraWhile(String cod, int i) {
+		int j = i;
+		if (cod.charAt(i) == '/') {
+			j++;
+			if (j < cod.length() && cod.charAt(j) == 'F') {
+				j++;
+				if (j < cod.length() && cod.charAt(j) == 'A') {
+					j++;
+					if (j < cod.length() && cod.charAt(j) == 'S') {
+						j++;
+						if (j < cod.length() && cod.charAt(j) == 'E') {
+							j++;
+							if (j < cod.length() && cod.charAt(j) == 'S') {
+								j++;
+								String lex = cod.substring(i, j);
+								Token token = new Token(lex, Token.PALABRAWHILE, j);
+								return token;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Este método valida la palabra -fr de nuestro lenguage
+	 * 
+	 * @param cod
+	 * @param i
+	 * @return token
+	 */
+	public Token extraePalabraFor(String cod, int i) {
+		int j = i;
+		if (cod.charAt(i) == '-') {
+			j++;
+			if (j < cod.length() && cod.charAt(j) == 'f') {
+				j++;
+				if (j < cod.length() && cod.charAt(j) == 'r') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.PALABRAFOR, j);
+					return token;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Este método valida la palabra Si de nuestro lenguage
+	 * 
+	 * @param cod
+	 * @param i
+	 * @return token
+	 */
+	public Token extraePalabraIf(String cod, int i) {
+		int j = i;
+		if (cod.charAt(i) == 'S') {
+			j++;
+			if (j < cod.length() && cod.charAt(j) == 'i') {
+				j++;
+
+				String lex = cod.substring(i, j);
+				Token token = new Token(lex, Token.PALABRAIF, j);
+				return token;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Este método valida la palabra CASE de nuestro lenguage
+	 * 
+	 * @param cod
+	 * @param i
+	 * @return token
+	 */
+	private Token extraePalabraSwitch(String cod, int i) {
+		int j = i;
+		if (cod.charAt(i) == 'C') {
+			j++;
+			if (j < cod.length() && cod.charAt(j) == 'A') {
+				j++;
+				if (j < cod.length() && cod.charAt(j) == 'S') {
+					j++;
+					if (j < cod.length() && cod.charAt(j) == 'E') {
+						j++;
+
+						String lex = cod.substring(i, j);
+						Token token = new Token(lex, Token.PALABRASWITCH, j);
+						return token;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Este método valida la palabra KLSS de nuestro lenguage
+	 * 
+	 * @param cod
+	 * @param i
+	 * @return token
+	 */
+	private Token extraePalabraClase(String cod, int i) {
+		int j = i;
+		if (cod.charAt(i) == 'K') {
+			j++;
+			if (j < cod.length() && cod.charAt(j) == 'L') {
+				j++;
+				if (j < cod.length() && cod.charAt(j) == 'S') {
+					j++;
+					if (j < cod.length() && cod.charAt(j) == 'S') {
+						j++;
+
+						String lex = cod.substring(i, j);
+						Token token = new Token(lex, Token.PALABRACLASE, j);
+						return token;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Este método valida la palabra Du de nuestro lenguage
+	 * 
+	 * @param cod
+	 * @param i
+	 * @return token
+	 */
+	public Token extraePalabraDoWhile(String cod, int i) {
+		int j = i;
+		if (cod.charAt(i) == 'D') {
+			j++;
+			if (j < cod.length() && cod.charAt(j) == 'u') {
+				j++;
+
+				String lex = cod.substring(i, j);
+				Token token = new Token(lex, Token.PALABRADOWHILE, j);
 				return token;
 			}
 		}
