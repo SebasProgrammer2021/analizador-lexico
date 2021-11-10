@@ -39,6 +39,10 @@ public class Token {
     final public static String OPERADORABRIR = "Operador de Abrir";
     final public static String OPERADORCERRAR = "Operador de Cerrar";
     final public static String OPERADORCADENA = "Operador de Cadena";
+    final public static String OPERADORCHAR = "Operador de char";
+    final public static String REAL = "Operador de numero real";
+    final public static String FALSO = "Operador de valor falso";
+    final public static String VERDADERO = "Operador valor verdadero";
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------

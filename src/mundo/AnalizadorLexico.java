@@ -59,6 +59,11 @@ public class AnalizadorLexico {
 	{
 		Token token;
 
+		//Extraer un token de real
+		token = extraerReal(cod, i);
+		if (token != null)
+			return token;
+
 		// Intenta extraer un entero
 		token = extraerEntero( cod, i);
 		if ( token != null )
@@ -114,11 +119,17 @@ public class AnalizadorLexico {
 		if ( token != null )
 			return token;
 
-
-		//Extraer un yoken de cadena
+		//Extraer un token de cadena
 		token = extraerCadena(cod, i);
 		if (token != null)
 			return token;
+
+		//Extraer un token de char
+		token = extraerChar(cod, i);
+		if (token != null)
+			return token;
+
+
 
 
 		// Extrae un token no reconocido
@@ -150,7 +161,6 @@ public class AnalizadorLexico {
 
 	public Token extraerEntero ( String codigo, int indice)
 	{
-
 		int indiceInicial;
 		String lexema;
 		if( codigo.charAt(indice)=='#' ){
@@ -167,6 +177,54 @@ public class AnalizadorLexico {
 
 		return null;
 	}
+
+	/**
+	 * Este metodo extraera un flotante con su inicial flotante
+	 * @param codigo
+	 * @param indice
+	 * @return
+	 */
+
+	//--- PREGUNTAR CAMBIO DE # A *
+	public Token extraerReal ( String codigo, int indice)
+	{
+		int indiceInicial;
+		String lexema;
+
+		System.out.println(codigo + " " + indice);
+		if(codigo.charAt(indice)=='#')
+		{
+			indiceInicial=indice+1;
+			if(indiceInicial<codigo.length() && esDigito(codigo.charAt(indiceInicial)))
+			{
+				do
+					indiceInicial++;
+				while (indiceInicial<codigo.length( ) && esDigito(codigo.charAt(indiceInicial)) );
+				if(codigo.charAt(indiceInicial)==',')
+				{
+					indiceInicial++;
+					if(indiceInicial<codigo.length() && esDigito(codigo.charAt(indiceInicial)))
+					{
+						do
+							indiceInicial++;
+						while (indiceInicial<codigo.length( ) && esDigito(codigo.charAt(indiceInicial)) );
+						lexema =  codigo.substring( indice, indiceInicial);
+						Token token = new Token( lexema, Token.REAL, indiceInicial );
+						return token;
+					}
+				}
+			}
+
+		}
+		return null;
+	}
+
+	/**
+	 * Este metodo intenta extraer un cadena de texto segun el contrato
+	 * @param codigo
+	 * @param indice
+	 * @return
+	 */
 	public Token extraerCadena (String codigo, int indice)
 	{
 		int indiceInicial;
@@ -186,12 +244,65 @@ public class AnalizadorLexico {
 							lexema = codigo.substring(indice, indiceInicial);
 							Token token = new Token (lexema, Token.OPERADORCADENA, indiceInicial);
 							return token;
-
 						}
 					}
-
 				}
 			}
+		}
+		return null;
+	}
+
+	/**
+	 * Metodo para extraer el tipo de dato char
+	 * @param codigo
+	 * @param indice
+	 * @return
+	 */
+	public Token extraerChar (String codigo, int indice){
+		int indiceInicial;
+		String lexema;
+		if(codigo.charAt(indice) == '-')
+		{
+			indiceInicial = indice + 1;
+			if (indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial)))
+			{
+				do
+					indiceInicial++;
+				while(indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial)));
+				if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '-')
+				{
+					indiceInicial++;
+					lexema = codigo.substring(indice, indiceInicial);
+					Token token = new Token (lexema, Token.OPERADORCHAR, indiceInicial);
+					return token;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * La X representa falso
+	 * La Ó representa verdadero
+	 * @param codigo
+	 * @param indice
+	 * @return
+	 */
+	public Token extraerLogico(String codigo, int indice){
+		int indiceInicial;
+		String lexema;
+		if(codigo.charAt(indice) == 'X')
+		{
+			indiceInicial = indice+1;
+			lexema = String.valueOf((codigo.charAt(indice)));
+			Token token = new Token (lexema, Token.FALSO, indiceInicial);
+			return token;
+		}else if(codigo.charAt(indice) == 'Ó')
+		{
+			indiceInicial = indice+1;
+			lexema = String.valueOf((codigo.charAt(indice)));
+			Token token = new Token (lexema, Token.VERDADERO, indiceInicial);
+			return token;
 		}
 		return null;
 	}
