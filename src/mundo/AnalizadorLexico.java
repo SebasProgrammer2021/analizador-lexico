@@ -94,16 +94,17 @@ public class AnalizadorLexico {
 		/*
 		 * token = extraerOperadorAditivo( cod, i); if ( token != null ) return token;
 		 */
-		// Intenta extraer un operador relacional
-		token = extraerOperadorRelacional(cod, i);
-		if (token != null)
-			return token;
-
-
+		
 //		// Intenta extraer un identificador
 //		token = extraerIdentificador(cod, i);
 //		if (token != null)
 //			return token;
+		
+//		METODOS OPERADORES-----------------------------------
+		// Intenta extraer un operador relacional
+		token = extraerOperadorRelacional(cod, i);
+		if (token != null)
+			return token;
 
 		// Intenta Extraer un Separador de Sentencia
 		token = extraerSeparadorDeSentencia(cod, i);
@@ -139,7 +140,9 @@ public class AnalizadorLexico {
 		token = extraerOperadorDeCerrar(cod, i);
 		if (token != null)
 			return token;
+//		METODOS OPERADORES-----------------------------------
 
+//		METODOS CICLOS---------------------------------------
 		// Intenta Extraer la palabra while /FASES
 		token = extraePalabraWhile(cod, i);
 		if (token != null)
@@ -168,11 +171,11 @@ public class AnalizadorLexico {
 		token = extraePalabraDoWhile(cod, i);
 		if (token != null)
 			return token;
-
+//		METODOS CICLOS---------------------------------------
+		
 		// Extrae un token no reconocido
 		token = extraerNoReconocido(cod, i);
 		return token;
-
 	}
 
 //	METODOS PALABRAS RESERVADAS-----------------------------------
@@ -312,7 +315,7 @@ public class AnalizadorLexico {
 					if (nextChar < cadena.length() && cadena.charAt(nextChar) == '?') {
 						nextChar++;
 						String lexema = cadena.substring(i, nextChar);
-						Token token = new Token(lexema, Token.DOUBLETYPE, nextChar);
+						Token token = new Token(lexema, Token.BOOLEANTYPE, nextChar);
 						return token;
 					}
 				}
