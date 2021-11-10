@@ -23,13 +23,19 @@ public class Token {
     /**
      * Constantes para modelar los posibles tipos de token que se van a analizar
      */
-//	agregar las demas constantes para los otros tipos
-    final public static String ENTERO = "Entero";
-    final public static String OPERADORADITIVO = "Operador aditivo";
-    final public static String IDENTIFICADOR = "Idcador";
-    final public static String NORECONOCIDO = "No reconocido";
+	
+	//	Palabras reservadas
+	final public static String STRINGTYPE = "Palabra reservada String";
+    final public static String CHARTYPE = "Palabra reservada char";
+    final public static String ENTEROTYPE = "Palabra reservada int";
+    final public static String DOUBLETYPE = "Palabra reservada Double";
+    final public static String BOOLEANTYPE = "Palabra reservada Boolean";
     
+    final public static String OPERADORADITIVO = "Operador aditivo";
+	final public static String IDENTIFICADOR = "Idcador";
+    final public static String NORECONOCIDO = "No reconocido";
  
+    //	Operadores
     final public static String SEPARADORSENTENCIA = "Operador Separado de sentencia";
     final public static String OPERADORINICIALTERMINAL = "Operador Inicial o Terminal";
     final public static String OPERADORARITMETICO = "Operador Aritmetico";

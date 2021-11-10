@@ -12,6 +12,7 @@
 
 package mundo;
 
+import java.lang.ProcessBuilder.Redirect.Type;
 import java.util.ArrayList;
 
 /**
@@ -19,27 +20,26 @@ import java.util.ArrayList;
  */
 
 public class AnalizadorLexico {
-
-	// -----------------------------------------------------------------
-	// Mï¿½todos
+	// Métodos
 	// -----------------------------------------------------------------
 
 	/**
-	 * Extrae los tokens de un cï¿½digo fuente dado
+	 * Extrae los tokens de un código fuente dado
 	 * 
-	 * @param cod - cï¿½digo al cual se le van a extraer los tokens - !=null
+	 * @param cod - código al cual se le van a extraer los tokens - !=null
 	 * @return vector con los tokens
 	 */
 	public ArrayList extraerTokens(String cod) {
 		Token token;
 		ArrayList vectorTokens = new ArrayList();
 
-		// El primer token se extrae a partir de posiciï¿½n cero
+		// El primer token se extrae a partir de posición cero
 		int i = 0;
 
 		// Ciclo para extraer todos los tokens
 		while (i < cod.length()) {
-			// Extrae el token de la posiciï¿½n i
+
+			// Extrae el token de la posición i
 			token = extraerSiguienteToken(cod, i);
 			vectorTokens.add(token);
 			i = token.darIndiceSiguiente();
@@ -48,15 +48,42 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Extrae el token de la cadena cod a partir de la posiciï¿½n i, basï¿½ndose en
-	 * el Autï¿½mata
+	 * Extrae el token de la cadena cod a partir de la posición i, basándose en el
+	 * Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a extraer un token - codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a extraer el token - i>=0
+	 * @param cod - código al cual se le va a extraer un token - codigo!=null
+	 * @param i   - posición a partir de la cual se va a extraer el token - i>=0
 	 * @return token que se extrajo de la cadena
 	 */
 	public Token extraerSiguienteToken(String cod, int i) {
 		Token token;
+
+//		METODOS PALABRAS RESERVADAS-----------------------------------
+		// Intenta extraer la palabra reservada String
+		token = extraerTipoCadena(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada char
+		token = extraerTipoCaracter(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada char
+		token = extraerTipoEntero(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada Double
+		token = extraerTipoDecimal(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada Double
+		token = extraerTipoBooleano(cod, i);
+		if (token != null)
+			return token;
+//		METODOS PALABRAS RESERVADAS-----------------------------------
 
 		// Intenta extraer un entero
 		token = extraerEntero(cod, i);
@@ -72,10 +99,11 @@ public class AnalizadorLexico {
 		if (token != null)
 			return token;
 
-		// Intenta extraer un identificador
-		token = extraerIdentificador(cod, i);
-		if (token != null)
-			return token;
+
+//		// Intenta extraer un identificador
+//		token = extraerIdentificador(cod, i);
+//		if (token != null)
+//			return token;
 
 		// Intenta Extraer un Separador de Sentencia
 		token = extraerSeparadorDeSentencia(cod, i);
@@ -147,24 +175,171 @@ public class AnalizadorLexico {
 
 	}
 
+//	METODOS PALABRAS RESERVADAS-----------------------------------
 	/**
-	 * Intenta extraer un entero de la cadena cod a partir de la posiciï¿½n i,
-	 * basï¿½ndose en el Autï¿½mata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un entero -
+	 * extrae la palabra reservada SS para el tipo de dato String en nuestro
+	 * lenguaje
+	 * 
+	 * @param cadena
+	 * @param i
+	 * @return
+	 */
+	public Token extraerTipoCadena(String cadena, int i) {
+		if (cadena.charAt(i) == 'S' && esMayuscula(cadena.charAt(i))) {
+			int nextChar = i + 1;
+			if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'S' && esMayuscula(cadena.charAt(nextChar))) {
+
+				nextChar++;
+				String lexema = cadena.substring(i, nextChar);
+				Token token = new Token(lexema, Token.STRINGTYPE, nextChar);
+				return token;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * extrae la palabra reservada _cHar' para el tipo de dato char en nuestro
+	 * lenguaje
+	 * 
+	 * @param cadena
+	 * @param i
+	 * @return
+	 */
+	public Token extraerTipoCaracter(String cadena, int i) {
+		if (cadena.charAt(i) == '_') {
+			int nextChar = i + 1;
+			if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'c') {
+				nextChar = nextChar + 1;
+				if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'H') {
+					nextChar = nextChar + 1;
+					if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'a') {
+						nextChar = nextChar + 1;
+						if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'r') {
+							nextChar = nextChar + 1;
+							if (nextChar < cadena.length() && cadena.charAt(nextChar) == '\'') {
+								nextChar++;
+								String lexema = cadena.substring(i, nextChar);
+								Token token = new Token(lexema, Token.CHARTYPE, nextChar);
+								return token;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * extrae la palabra reservada E#nt para el tipo de dato int en nuestro lenguaje
+	 * 
+	 * @param cadena
+	 * @param i
+	 * @return
+	 */
+	public Token extraerTipoEntero(String cadena, int i) {
+		if (cadena.charAt(i) == 'E') {
+			int nextChar = i + 1;
+			if (nextChar < cadena.length() && cadena.charAt(nextChar) == '#') {
+				nextChar = nextChar + 1;
+				if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'n') {
+					nextChar = nextChar + 1;
+					if (nextChar < cadena.length() && cadena.charAt(nextChar) == 't') {
+						nextChar++;
+						String lexema = cadena.substring(i, nextChar);
+						Token token = new Token(lexema, Token.ENTEROTYPE, nextChar);
+						return token;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * extrae la palabra reservada _Deci.L para el tipo de dato Double en nuestro
+	 * lenguaje
+	 * 
+	 * @param cadena
+	 * @param i
+	 * @return
+	 */
+	public Token extraerTipoDecimal(String cadena, int i) {
+		if (cadena.charAt(i) == '_') {
+			int nextChar = i + 1;
+			if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'D') {
+				nextChar = nextChar + 1;
+				if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'e') {
+					nextChar = nextChar + 1;
+					if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'c') {
+						nextChar = nextChar + 1;
+						if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'i') {
+							nextChar = nextChar + 1;
+							if (nextChar < cadena.length() && cadena.charAt(nextChar) == '.') {
+								nextChar = nextChar + 1;
+								if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'L') {
+									nextChar++;
+									String lexema = cadena.substring(i, nextChar);
+									Token token = new Token(lexema, Token.DOUBLETYPE, nextChar);
+									return token;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * extrae la palabra reservada _Deci.L para el tipo de dato Double en nuestro
+	 * lenguaje
+	 * 
+	 * @param cadena
+	 * @param i
+	 * @return
+	 */
+	public Token extraerTipoBooleano(String cadena, int i) {
+		if (cadena.charAt(i) == '?') {
+			int nextChar = i + 1;
+			if (nextChar < cadena.length() && cadena.charAt(nextChar) == 'T' || cadena.charAt(nextChar) == 'F') {
+				nextChar = nextChar + 1;
+				if (nextChar < cadena.length() && cadena.charAt(nextChar) == '_') {
+					nextChar = nextChar + 1;
+					if (nextChar < cadena.length() && cadena.charAt(nextChar) == '?') {
+						nextChar++;
+						String lexema = cadena.substring(i, nextChar);
+						Token token = new Token(lexema, Token.DOUBLETYPE, nextChar);
+						return token;
+					}
+				}
+			}
+		}
+		return null;
+	}
+//	METODOS PALABRAS RESERVADAS-----------------------------------
+
+	/**
+	 * Intenta extraer un entero de la cadena cod a partir de la posición i,
+	 * basándose en el Autómata
+	 * 
+	 * @param cod - código al cual se le va a intentar extraer un entero -
 	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
-	 *            entero - 0<=indice<codigo.length()
-	 * @return el token entero o NULL, si el token en la posiciï¿½n dada no es un
-	 *         entero. El Token se compone de el lexema, el tipo y la posiciï¿½n del
+	 * @param i   - posición a partir de la cual se va a intentar extraer un entero
+	 *            - 0<=indice<codigo.length()
+	 * @return el token entero o NULL, si el token en la posición dada no es un
+	 *         entero. El Token se compone de el lexema, el tipo y la posición del
 	 *         siguiente lexema.
 	 */
 
-	// Este mï¿½todo usa el mï¿½todo substring(), que se explica a continuaciï¿½n:
+	// Este método usa el método substring(), que se explica a continuación:
 	// x.substring( i, j ) retorna una nueva cadena que es una subcadena de la
 	// cadena x.
-	// La subcadena comienza en la posiciï¿½n i y
-	// se extiende hasta el carï¿½cter en la posiciï¿½n j-1.
+	// La subcadena comienza en la posición i y
+	// se extiende hasta el carácter en la posición j-1.
 	// Ejemplo: "universidad".substring(3,6) retorna "ver",
 
 	public Token extraerEntero(String cod, int i) {
@@ -178,7 +353,7 @@ public class AnalizadorLexico {
 					j++;
 				while (j < cod.length() && esDigito(cod.charAt(j)));
 				lex = cod.substring(i, j);
-				Token token = new Token(lex, Token.ENTERO, j);
+				Token token = new Token(lex, Token.ENTEROTYPE, j);
 				return token;
 			}
 		}
@@ -187,17 +362,19 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Intenta extraer un operador aditivo de la cadena cod a partir de la
-	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
+	 * Intenta extraer un operador aditivo de la cadena cod a partir de la posición
+	 * i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer el operador aditivo
-	 *            - codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer el
+	 * @param cod - código al cual se le va a intentar extraer el operador aditivo -
+	 *            codigo!=null
+	 * @param i   - posición a partir de la cual se va a intentar extraer el
 	 *            operador aditivo - 0<=i<codigo.length()
-	 * @return el token operador aditivo o NULL, si el token en la posiciï¿½n dada
-	 *         no es un operador aditivo.El Token se compone de el lexema, el tipo y
-	 *         la posiciï¿½n del siguiente lexema.
+	 * @return el token operador aditivo o NULL, si el token en la posición dada no
+	 *         es un operador aditivo.El Token se compone de el lexema, el tipo y la
+	 *         posición del siguiente lexema.
 	 */
+	
+	
 	/*
 	 * public Token extraerOperadorAditivo ( String cod, int i ) { if( cod.charAt(i)
 	 * =='+' || cod.charAt(i) =='-'){ int j=i+1; String lex = cod.substring( i, j);
@@ -207,15 +384,15 @@ public class AnalizadorLexico {
 
 	/**
 	 * Intenta extraer un operador relacional de la cadena cod a partir de la
-	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
+	 * posición i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer el operador
+	 * @param cod - código al cual se le va a intentar extraer el operador
 	 *            relacional - codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer el
+	 * @param i   - posición a partir de la cual se va a intentar extraer el
 	 *            operador relacional - 0<=i<codigo.length()
-	 * @return el token operador relacional o NULL, si el token en la posiciï¿½n
-	 *         dada no es un operador relacional. El Token se compone de el lexema,
-	 *         el tipo y la posiciï¿½n del siguiente lexema.
+	 * @return el token operador relacional o NULL, si el token en la posición dada
+	 *         no es un operador relacional. El Token se compone de el lexema, el
+	 *         tipo y la posición del siguiente lexema.
 	 */
 	public Token extraerOperadorRelacional(String cod, int i) {
 		Token token1 = null;
@@ -246,41 +423,42 @@ public class AnalizadorLexico {
 		return token1;
 	}
 
-	/**
-	 * Intenta extraer un identificador de la cadena cod a partir de la posiciï¿½n
-	 * i, basï¿½ndose en el Autï¿½mata
-	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un identficador -
-	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
-	 *            identificador - 0<=indice<codigo.length()
-	 * @return el token identificaror o NULL, si el token en la posiciï¿½n dada no
-	 *         es un identificador. El Token se compone de el lexema, el tipo y la
-	 *         posiciï¿½n del siguiente lexema.
-	 */
-	public Token extraerIdentificador(String cod, int i) {
-		if (cod.charAt(i) == '_') {
-			int j = i + 1;
-			while (j < cod.length() && esLetra(cod.charAt(j)))
-				j++;
-			String lex = cod.substring(i, j);
-			Token token = new Token(lex, Token.IDENTIFICADOR, j);
-			return token;
-		}
-		return null;
-	}
+//	METODOS DE EJEMPLO
+//	/**
+//	 * Intenta extraer un identificador de la cadena cod a partir de la posición i,
+//	 * basándose en el Autómata
+//	 * 
+//	 * @param cod - código al cual se le va a intentar extraer un identficador -
+//	 *            codigo!=null
+//	 * @param i   - posición a partir de la cual se va a intentar extraer un
+//	 *            identificador - 0<=indice<codigo.length()
+//	 * @return el token identificaror o NULL, si el token en la posición dada no es
+//	 *         un identificador. El Token se compone de el lexema, el tipo y la
+//	 *         posición del siguiente lexema.
+//	 */
+//	public Token extraerIdentificador(String cod, int i) {
+//		if (cod.charAt(i) == '_') {
+//			int j = i + 1;
+//			while (j < cod.length() && esLetra(cod.charAt(j)))
+//				j++;
+//			String lex = cod.substring(i, j);
+//			Token token = new Token(lex, Token.IDENTIFICADOR, j);
+//			return token;
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Intenta extraer un Separador de sentencia de la cadena cod a partir de la
-	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
+	 * posición i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un identficador -
+	 * @param cod - código al cual se le va a intentar extraer un identficador -
 	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
+	 * @param i   - posición a partir de la cual se va a intentar extraer un
 	 *            identificador - 0<=indice<codigo.length()
-	 * @return el token identificaror o NULL, si el token en la posiciï¿½n dada no
-	 *         es un identificador. El Token se compone de el lexema, el tipo y la
-	 *         posiciï¿½n del siguiente lexema.
+	 * @return el token identificaror o NULL, si el token en la posición dada no es
+	 *         un identificador. El Token se compone de el lexema, el tipo y la
+	 *         posición del siguiente lexema.
 	 */
 	public Token extraerSeparadorDeSentencia(String cod, int i) {
 		if (cod.charAt(i) == ';') {
@@ -295,15 +473,15 @@ public class AnalizadorLexico {
 
 	/**
 	 * Intenta extraer un Operador Inicial o Terminal de la cadena cod a partir de
-	 * la posiciï¿½n i, basï¿½ndose en el Autï¿½mata
+	 * la posición i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un identficador -
+	 * @param cod - código al cual se le va a intentar extraer un identficador -
 	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
+	 * @param i   - posición a partir de la cual se va a intentar extraer un
 	 *            identificador - 0<=indice<codigo.length()
-	 * @return el token identificaror o NULL, si el token en la posiciï¿½n dada no
-	 *         es un identificador. El Token se compone de el lexema, el tipo y la
-	 *         posiciï¿½n del siguiente lexema.
+	 * @return el token identificaror o NULL, si el token en la posición dada no es
+	 *         un identificador. El Token se compone de el lexema, el tipo y la
+	 *         posición del siguiente lexema.
 	 */
 	public Token extraerOperadorInicialTerminal(String cod, int i) {
 		if (cod.charAt(i) == '~' || cod.charAt(i) == '¬') {
@@ -317,15 +495,15 @@ public class AnalizadorLexico {
 
 	/**
 	 * Intenta extraer un Operador Aritmetico de la cadena cod a partir de la
-	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
+	 * posición i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un operador
+	 * @param cod - código al cual se le va a intentar extraer un operador
 	 *            Aritmetico - codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
+	 * @param i   - posición a partir de la cual se va a intentar extraer un
 	 *            operador Aritmetico - 0<=indice<codigo.length()
-	 * @return el token Aritmetico o NULL, si el token en la posiciï¿½n dada no es
-	 *         un operador Aritmetico. El Token se compone de el lexema, el tipo y
-	 *         la posiciï¿½n del siguiente lexema.
+	 * @return el token Aritmetico o NULL, si el token en la posición dada no es un
+	 *         operador Aritmetico. El Token se compone de el lexema, el tipo y la
+	 *         posición del siguiente lexema.
 	 */
 	public Token extraerOperadorAritmetico(String cod, int i) {
 		if (cod.charAt(i) == 's' || cod.charAt(i) == 'r' || cod.charAt(i) == 'm' || cod.charAt(i) == 'd'
@@ -350,15 +528,15 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Intenta extraer un Operador Logico de la cadena cod a partir de la posiciï¿½n
-	 * i, basï¿½ndose en el Autï¿½mata
+	 * Intenta extraer un Operador Logico de la cadena cod a partir de la posición
+	 * i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un Logico -
+	 * @param cod - código al cual se le va a intentar extraer un Logico -
 	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
-	 *            Logico - 0<=indice<codigo.length()
-	 * @return el token Logico o NULL, si el token en la posiciï¿½n dada no es un
-	 *         Logico. El Token se compone de el lexema, el tipo y la posiciï¿½n del
+	 * @param i   - posición a partir de la cual se va a intentar extraer un Logico
+	 *            - 0<=indice<codigo.length()
+	 * @return el token Logico o NULL, si el token en la posición dada no es un
+	 *         Logico. El Token se compone de el lexema, el tipo y la posición del
 	 *         siguiente lexema.
 	 */
 	public Token extraerOperadorLogico(String cod, int i) {
@@ -381,15 +559,15 @@ public class AnalizadorLexico {
 
 	/**
 	 * Intenta extraer un Operador de asignacion de la cadena cod a partir de la
-	 * posiciï¿½n i, basï¿½ndose en el Autï¿½mata
+	 * posición i, basándose en el Autómata
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a intentar extraer un asignacion -
+	 * @param cod - código al cual se le va a intentar extraer un asignacion -
 	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a intentar extraer un
+	 * @param i   - posición a partir de la cual se va a intentar extraer un
 	 *            asignacion - 0<=indice<codigo.length()
-	 * @return el token asignacion o NULL, si el token en la posiciï¿½n dada no es
-	 *         un asignacion. El Token se compone de el lexema, el tipo y la
-	 *         posiciï¿½n del siguiente lexema.
+	 * @return el token asignacion o NULL, si el token en la posición dada no es un
+	 *         asignacion. El Token se compone de el lexema, el tipo y la posición
+	 *         del siguiente lexema.
 	 */
 	public Token extraerOperadorAsignacion(String cod, int i) {
 		if (cod.charAt(i) == '-') {
@@ -631,16 +809,16 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Extraer un lexema no reconocido de la cadena cod a partir de la posiciï¿½n i.
-	 * Antes de utilizar este mï¿½todo, debe haberse intentado todos los otros
-	 * mï¿½todos para los otros tipos de token
+	 * Extraer un lexema no reconocido de la cadena cod a partir de la posición i.
+	 * Antes de utilizar este método, debe haberse intentado todos los otros métodos
+	 * para los otros tipos de token
 	 * 
-	 * @param cod - cï¿½digo al cual se le va a extraer el token no reconocido -
+	 * @param cod - código al cual se le va a extraer el token no reconocido -
 	 *            codigo!=null
-	 * @param i   - posiciï¿½n a partir de la cual se va a extraer el token no
+	 * @param i   - posición a partir de la cual se va a extraer el token no
 	 *            reconocido - 0<=indice<codigo.length()
 	 * @return el token no reconocido. El Token se compone de lexema, el tipo y la
-	 *         posiciï¿½n del siguiente lexema.
+	 *         posición del siguiente lexema.
 	 * 
 	 */
 	public Token extraerNoReconocido(String cod, int i) {
@@ -651,40 +829,40 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Determina si un carï¿½cter es un dï¿½gito
+	 * Determina si un carácter es un dígito
 	 * 
-	 * @param caracter - Carï¿½cter que se va a analizar - caracter!=null,
-	 * @return true o false segï¿½n el carï¿½cter sea un dï¿½gito o no
+	 * @param caracter - Carácter que se va a analizar - caracter!=null,
+	 * @return true o false según el carácter sea un dígito o no
 	 */
 	public boolean esDigito(char caracter) {
 		return caracter >= '0' && caracter <= '9';
 	}
 
 	/**
-	 * Determina si un caracter es una letra
+	 * Determina si un carácter es una letra
 	 * 
-	 * @param caracter - caracter que se va a analizar - caracter!=null,
-	 * @return true o false segï¿½n el caracter sea una letra o no
+	 * @param caracter - Carácter que se va a analizar - caracter!=null,
+	 * @return true o false según el carácter sea una letra o no
 	 */
 	public boolean esLetra(char caracter) {
 		return (caracter >= 'A' && caracter <= 'Z') || (caracter >= 'a' && caracter <= 'z');
 	}
 
 	/**
-	 * Determina si un caracter es una letra Mayuscula
+	 * Determina si un carácter es una letra Mayuscula
 	 * 
-	 * @param caracter - Carï¿½cter que se va a analizar - caracter!=null,
-	 * @return true o false segï¿½n el carï¿½cter sea una letra Mayuscula o no
+	 * @param caracter - Carácter que se va a analizar - caracter!=null,
+	 * @return true o false según el carácter sea una letra Mayuscula o no
 	 */
 	public boolean esMayuscula(char caracter) {
 		return (caracter >= 'A' && caracter <= 'Z');
 	}
 
 	/**
-	 * Determina si un caracter es una letra Minuscula
+	 * Determina si un carácter es una letra Minuscula
 	 * 
-	 * @param caracter - caracter que se va a analizar - caracter!=null,
-	 * @return true o false caracter el caracter sea una letra Minuscula o no
+	 * @param caracter - Carácter que se va a analizar - caracter!=null,
+	 * @return true o false según el carácter sea una letra Minuscula o no
 	 */
 	public boolean esMinuscula(char caracter) {
 		return (caracter >= 'a' && caracter <= 'z');
