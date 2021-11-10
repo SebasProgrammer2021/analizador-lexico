@@ -129,6 +129,11 @@ public class AnalizadorLexico {
 		if (token != null)
 			return token;
 
+		//Extraer un token de char
+		token = extraerLogico(cod, i);
+		if (token != null)
+			return token;
+
 
 
 
@@ -190,9 +195,7 @@ public class AnalizadorLexico {
 	{
 		int indiceInicial;
 		String lexema;
-
-		System.out.println(codigo + " " + indice);
-		if(codigo.charAt(indice)=='#')
+		if(codigo.charAt(indice)=='*')
 		{
 			indiceInicial=indice+1;
 			if(indiceInicial<codigo.length() && esDigito(codigo.charAt(indiceInicial)))
