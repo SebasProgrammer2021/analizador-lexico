@@ -509,25 +509,75 @@ public class AnalizadorLexico {
 	 *         posición del siguiente lexema.
 	 */
 	public Token extraerOperadorAritmetico(String cod, int i) {
-		if (cod.charAt(i) == 's' || cod.charAt(i) == 'r' || cod.charAt(i) == 'm' || cod.charAt(i) == 'd'
-				|| cod.charAt(i) == 'p' || cod.charAt(i) == 'c') {
+		if (cod.charAt(i) == 's') {
 			int j = i + 1;
-			String lex = cod.substring(i, j);
-			Token token = new Token(lex, Token.OPERADORARITMETICO, j);
-			return token;
+			if(j < cod.length() &&  cod.charAt(j) == 'u') {
+				j++;
+				if(j < cod.length() &&  cod.charAt(j) == 'm') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.OPERADORARITMETICO, j);
+					return token;
+				}
+			}
+			
+		}else if(cod.charAt(i) == 'r') {
+			int j = i + 1;
+			if(j < cod.length() &&  cod.charAt(j) == 'e') {
+				j++;
+				if(j < cod.length() &&  cod.charAt(j) == 's') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.OPERADORARITMETICO, j);
+					return token;
+				}
+			}
+		}else if(cod.charAt(i) == 'm') {
+			int j = i + 1;
+			if(j < cod.length() &&  cod.charAt(j) == 'u') {
+				j++;
+				if(j < cod.length() &&  cod.charAt(j) == 'l') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.OPERADORARITMETICO, j);
+					return token;
+				}
+			}
+		}else if(cod.charAt(i) == 'd') {
+			int j = i + 1;
+			if(j < cod.length() &&  cod.charAt(j) == 'i') {
+				j++;
+				if(j < cod.length() &&  cod.charAt(j) == 'v') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.OPERADORARITMETICO, j);
+					return token;
+				}
+			}
+		}else if(cod.charAt(i) == 'p') {
+			int j = i + 1;
+			if(j < cod.length() &&  cod.charAt(j) == 'o') {
+				j++;
+				if(j < cod.length() &&  cod.charAt(j) == 'r') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.OPERADORARITMETICO, j);
+					return token;
+				}
+			}
+		}else if(cod.charAt(i) == 'e') {
+			int j = i + 1;
+			if(j < cod.length() &&  cod.charAt(j) == 'x') {
+				j++;
+				if(j < cod.length() &&  cod.charAt(j) == 'p') {
+					j++;
+					String lex = cod.substring(i, j);
+					Token token = new Token(lex, Token.OPERADORARITMETICO, j);
+					return token;
+				}
+			}
 		}
 		return null;
-		/*
-		 * Propuesta Profe - interviene con los operadores de asignacion if(
-		 * (esMayuscula(cod.charAt(i)) && cod.charAt(i)=='S') ||
-		 * (esMayuscula(cod.charAt(i)) && cod.charAt(i)=='R') ||
-		 * (esMayuscula(cod.charAt(i)) && cod.charAt(i)=='M') ||
-		 * (esMayuscula(cod.charAt(i)) && cod.charAt(i)=='D') ||
-		 * (esMayuscula(cod.charAt(i)) && cod.charAt(i)=='P') ||
-		 * (esMayuscula(cod.charAt(i)) && cod.charAt(i)=='C')){ int j=i+1; String lex =
-		 * cod.substring( i, j); Token token = new Token( lex, Token.OPERADORARITMETICO,
-		 * j ); return token; } return null;
-		 */
 	}
 
 	/**
@@ -587,8 +637,9 @@ public class AnalizadorLexico {
 				|| (esMinuscula(cod.charAt(i)) && cod.charAt(i) == 'm')
 				|| (esMinuscula(cod.charAt(i)) && cod.charAt(i) == 'p')
 				|| (esMinuscula(cod.charAt(i)) && cod.charAt(i) == 'd')) {
-			if (cod.charAt(i) == '-') {
-				int j = i + 1;
+			int j = i + 1;
+			if (j < cod.length() && cod.charAt(j) == '-') {
+				j++;
 				if (j < cod.length() && cod.charAt(j) == '>') {
 					j++;
 					String lex = cod.substring(i, j);
