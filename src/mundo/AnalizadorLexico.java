@@ -51,147 +51,147 @@ public class AnalizadorLexico {
 		return vectorTokens;
 	}
 
-	 /*
-		 * Extrae el token de la cadena cod a partir de la posición i, basándose en el
-		 * Autómata
-		 *
-		 * @param cod - código al cual se le va a extraer un token - codigo!=null
-		 * @param i   - posición a partir de la cual se va a extraer el token - i>=0
-		 * @return token que se extrajo de la cadena
-		 */
-		public Token extraerSiguienteToken(String cod, int i) {
-			Token token;
+	/*
+	 * Extrae el token de la cadena cod a partir de la posición i, basándose en el
+	 * Autómata
+	 *
+	 * @param cod - código al cual se le va a extraer un token - codigo!=null
+	 * @param i   - posición a partir de la cual se va a extraer el token - i>=0
+	 * @return token que se extrajo de la cadena
+	 */
+	public Token extraerSiguienteToken(String cod, int i) {
+		Token token;
 
-//			METODOS PALABRAS RESERVADAS-----------------------------------
-			// Intenta extraer la palabra reservada String
-			token = extraerTipoCadena(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta extraer la palabra reservada char
-			token = extraerTipoCaracter(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta extraer la palabra reservada char
-			token = extraerTipoEntero(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta extraer la palabra reservada Double
-			token = extraerTipoDecimal(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta extraer la palabra reservada Double
-			token = extraerTipoBooleano(cod, i);
-			if (token != null)
-				return token;
-//			METODOS PALABRAS RESERVADAS-----------------------------------
-
-			// Intenta extraer un entero
-			token = extraerEnteroReal(cod, i);
-			if (token != null)
-				return token;
-
-
-//			METODOS OPERADORES-----------------------------------
-			// Intenta extraer un operador relacional
-			token = extraerOperadorRelacional(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta extraer un entero o un real
-						token = extraerEnteroReal(cod, i);
-						if (token != null)
-							return token;
-
-						// Intenta extraer una cadena
-						token = extraerCadena(cod, i);
-						if (token != null)
-							return token;
-
-						// Intenta extraer un char
-						token = extraerChar(cod, i);
-						if (token != null)
-							return token;
-
-						// Intenta extraer un operador logico
-						token = extraerLogico(cod, i);
-						if (token != null)
-							return token;
-
-			// Intenta Extraer un Separador de Sentencia
-			token = extraerSeparadorDeSentencia(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer un operador Incial o Terminal
-			token = extraerOperadorInicialTerminal(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer un operador aritmetico
-			token = extraerOperadorAritmetico(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer un operador Logico
-			token = extraerOperadorLogico(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer un operador de Asignacion
-			token = extraerOperadorAsignacion(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer un operador de abrir
-			token = extraerOperadorDeAbrir(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer un operador de cerrar
-			token = extraerOperadorDeCerrar(cod, i);
-			if (token != null)
-				return token;
-//			METODOS OPERADORES-----------------------------------
-
-//			METODOS CICLOS---------------------------------------
-			// Intenta Extraer la palabra while /FASES
-			token = extraePalabraWhile(cod, i);
-			if (token != null)
-				return token;
-			// Intenta Extraer la palabra for -fr
-			token = extraePalabraFor(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer la palabra if (Si)
-			token = extraePalabraIf(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer la palabra Switch (CASE)
-			token = extraePalabraSwitch(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer la palabra Clase (KLSS)
-			token = extraePalabraClase(cod, i);
-			if (token != null)
-				return token;
-
-			// Intenta Extraer la palabra Do While(Du)
-			token = extraePalabraDoWhile(cod, i);
-			if (token != null)
-				return token;
-//			METODOS CICLOS---------------------------------------
-
-			// Extrae un token no reconocido
-			token = extraerNoReconocido(cod, i);
+		//			METODOS PALABRAS RESERVADAS-----------------------------------
+		// Intenta extraer la palabra reservada String
+		token = extraerTipoCadena(cod, i);
+		if (token != null)
 			return token;
-		}
+
+		// Intenta extraer la palabra reservada char
+		token = extraerTipoCaracter(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada char
+		token = extraerTipoEntero(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada Double
+		token = extraerTipoDecimal(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer la palabra reservada Double
+		token = extraerTipoBooleano(cod, i);
+		if (token != null)
+			return token;
+		//			METODOS PALABRAS RESERVADAS-----------------------------------
+
+		// Intenta extraer un entero
+		token = extraerEnteroReal(cod, i);
+		if (token != null)
+			return token;
+
+
+		//			METODOS OPERADORES-----------------------------------
+		// Intenta extraer un operador relacional
+		token = extraerOperadorRelacional(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer un entero o un real
+		token = extraerEnteroReal(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer una cadena
+		token = extraerCadena(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer un char
+		token = extraerChar(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta extraer un operador logico
+		token = extraerLogico(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un Separador de Sentencia
+		token = extraerSeparadorDeSentencia(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un operador Incial o Terminal
+		token = extraerOperadorInicialTerminal(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un operador aritmetico
+		token = extraerOperadorAritmetico(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un operador Logico
+		token = extraerOperadorLogico(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un operador de Asignacion
+		token = extraerOperadorAsignacion(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un operador de abrir
+		token = extraerOperadorDeAbrir(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer un operador de cerrar
+		token = extraerOperadorDeCerrar(cod, i);
+		if (token != null)
+			return token;
+		//			METODOS OPERADORES-----------------------------------
+
+		//			METODOS CICLOS---------------------------------------
+		// Intenta Extraer la palabra while /FASES
+		token = extraePalabraWhile(cod, i);
+		if (token != null)
+			return token;
+		// Intenta Extraer la palabra for -fr
+		token = extraePalabraFor(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra if (Si)
+		token = extraePalabraIf(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra Switch (CASE)
+		token = extraePalabraSwitch(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra Clase (KLSS)
+		token = extraePalabraClase(cod, i);
+		if (token != null)
+			return token;
+
+		// Intenta Extraer la palabra Do While(Du)
+		token = extraePalabraDoWhile(cod, i);
+		if (token != null)
+			return token;
+		//			METODOS CICLOS---------------------------------------
+
+		// Extrae un token no reconocido
+		token = extraerNoReconocido(cod, i);
+		return token;
+	}
 
 
 
@@ -246,7 +246,7 @@ public class AnalizadorLexico {
 	}
 
 
-//	METODOS PALABRAS RESERVADAS-----------------------------------
+	//	METODOS PALABRAS RESERVADAS-----------------------------------
 	/**
 	 *
 	 * extrae la palabra reservada SS para el tipo de dato String en nuestro
@@ -292,8 +292,6 @@ public class AnalizadorLexico {
 					do
 						indiceInicial++;
 					while(indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial)));
-
-					//Configuramos extension de la cadena
 					if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '.')
 					{
 						indiceInicial++;
@@ -331,8 +329,6 @@ public class AnalizadorLexico {
 						}
 
 					}
-					//-----------------
-
 					if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '-')
 					{
 						indiceInicial++;
@@ -349,10 +345,9 @@ public class AnalizadorLexico {
 		}
 		return null;
 	}
-						/*
-	 * extrae la palabra reservada _cHar' para el tipo de dato char en nuestro
+	/*
+	 * extrae la palabra reservada char' para el tipo de dato char en nuestro
 	 * lenguaje
-	 *
 	 * @param cadena
 	 * @param i
 	 * @return
@@ -411,7 +406,7 @@ public class AnalizadorLexico {
 		return null;
 	}
 
-     /*
+	/*
 	 * extrae la palabra reservada E#nt para el tipo de dato int en nuestro lenguaje
 	 *
 	 * @param cadena
@@ -463,7 +458,7 @@ public class AnalizadorLexico {
 		}
 		return null;
 	}
-/*
+	/*
 	 * extrae la palabra reservada _Deci.L para el tipo de dato Double en nuestro
 	 * lenguaje
 	 *
@@ -524,7 +519,7 @@ public class AnalizadorLexico {
 		}
 		return null;
 	}
-//	METODOS PALABRAS RESERVADAS-----------------------------------
+	//	METODOS PALABRAS RESERVADAS-----------------------------------
 
 	/**
 	 * Intenta extraer un operador relacional de la cadena cod a partir de la
@@ -567,32 +562,6 @@ public class AnalizadorLexico {
 		}
 		return token1;
 	}
-
-
-//	METODOS DE EJEMPLO
-//	/**
-//	 * Intenta extraer un identificador de la cadena cod a partir de la posición i,
-//	 * basándose en el Autómata
-//	 *
-//	 * @param cod - código al cual se le va a intentar extraer un identficador -
-//	 *            codigo!=null
-//	 * @param i   - posición a partir de la cual se va a intentar extraer un
-//	 *            identificador - 0<=indice<codigo.length()
-//	 * @return el token identificaror o NULL, si el token en la posición dada no es
-//	 *         un identificador. El Token se compone de el lexema, el tipo y la
-//	 *         posición del siguiente lexema.
-//	 */
-//	public Token extraerIdentificador(String cod, int i) {
-//		if (cod.charAt(i) == '_') {
-//			int j = i + 1;
-//			while (j < cod.length() && esLetra(cod.charAt(j)))
-//				j++;
-//			String lex = cod.substring(i, j);
-//			Token token = new Token(lex, Token.IDENTIFICADOR, j);
-//			return token;
-//		}
-//		return null;
-//	}
 
 	/**
 	 * Intenta extraer un Separador de sentencia de la cadena cod a partir de la

@@ -10,3 +10,6 @@
 
 2021
 Septimo semestre
+
+#### Ubicacion archivo con linea de prueba
+\analizador-lexico\src\resources\tokensLenguaje.txt
