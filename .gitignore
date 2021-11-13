@@ -3,3 +3,4 @@
 
 #Ignora Archivos del sistema Mac
 .DS_store
+/bin/
