@@ -59,15 +59,11 @@ public class AnalizadorLexico {
 	{
 		Token token;
 
-		//Extraer un token de real
-		token = extraerReal(cod, i);
+		//Extraer un token de real o entero segun el caso
+		token = extraerEnteroReal(cod, i);
 		if (token != null)
 			return token;
 
-		// Intenta extraer un entero
-		token = extraerEntero( cod, i);
-		if ( token != null )
-			return token;
 
 		// Intenta extraer un operador aditivo
 		/*		token = extraerOperadorAditivo( cod, i);
@@ -148,54 +144,20 @@ public class AnalizadorLexico {
 
 	}
 
-	/**
-	 * Intenta extraer un entero de la cadena cod a partir de la posición i,
-	 * basándose en el Autómata
-	 * @param codigo - código al cual se le va a intentar extraer un entero - codigo!=null
-	 * @param indice - posición a partir de la cual se va a intentar extraer un entero  - 0<=indice<codigo.length()
-	 * @return el token entero o NULL, si el token en la posición dada no es un entero. El Token se compone de
-	 * el lexema, el tipo y la posición del siguiente lexema.
-	 */
 
-	// Este método usa el método substring(), que se explica a continuación:
-	// x.substring( i, j ) retorna una nueva cadena que es una subcadena de la cadena x.
-	// La subcadena comienza en la posición i y
-	// se extiende hasta el carácter en la posición j-1.
-	// Ejemplo: "universidad".substring(3,6) retorna "ver",
-
-
-	public Token extraerEntero ( String codigo, int indice)
-	{
-		int indiceInicial;
-		String lexema;
-		if( codigo.charAt(indice)=='#' ){
-			indiceInicial=indice+1;
-			if( indiceInicial<codigo.length() && esDigito(codigo.charAt(indiceInicial)) ){
-				do
-					indiceInicial++;
-				while (  indiceInicial<codigo.length( ) && esDigito(codigo.charAt(indiceInicial)) );
-				lexema =  codigo.substring( indice, indiceInicial);
-				Token token = new Token( lexema, Token.ENTERO, indiceInicial );
-				return token;
-			}
-		}
-
-		return null;
-	}
 
 	/**
-	 * Este metodo extraera un flotante con su inicial flotante
+	 * Este metodo extraera un flotante con su inicial flotante o si es real lo identificara.
 	 * @param codigo
 	 * @param indice
 	 * @return
 	 */
 
-	//--- PREGUNTAR CAMBIO DE # A *
-	public Token extraerReal ( String codigo, int indice)
+	public Token extraerEnteroReal ( String codigo, int indice)
 	{
-		int indiceInicial;
+		int indiceInicial=0;
 		String lexema;
-		if(codigo.charAt(indice)=='*')
+		if(indiceInicial<codigo.length() && codigo.charAt(indice)=='#')
 		{
 			indiceInicial=indice+1;
 			if(indiceInicial<codigo.length() && esDigito(codigo.charAt(indiceInicial)))
@@ -203,7 +165,8 @@ public class AnalizadorLexico {
 				do
 					indiceInicial++;
 				while (indiceInicial<codigo.length( ) && esDigito(codigo.charAt(indiceInicial)) );
-				if(codigo.charAt(indiceInicial)==',')
+
+				if(indiceInicial<codigo.length() && codigo.charAt(indiceInicial)==',')
 				{
 					indiceInicial++;
 					if(indiceInicial<codigo.length() && esDigito(codigo.charAt(indiceInicial)))
@@ -215,6 +178,17 @@ public class AnalizadorLexico {
 						Token token = new Token( lexema, Token.REAL, indiceInicial );
 						return token;
 					}
+					else
+					{
+						lexema =  codigo.substring( indice, indiceInicial-1);
+						Token token = new Token( lexema, Token.ENTERO, indiceInicial-1 );
+						return token;
+
+					}
+				}else{
+					lexema =  codigo.substring( indice, indiceInicial);
+					Token token = new Token( lexema, Token.ENTERO, indiceInicial );
+					return token;
 				}
 			}
 
@@ -230,19 +204,65 @@ public class AnalizadorLexico {
 	 */
 	public Token extraerCadena (String codigo, int indice)
 	{
-		int indiceInicial;
+		int indiceInicial=0;
 		String lexema;
-		if(codigo.charAt(indice) == '-'){
+		if(indiceInicial < codigo.length() && codigo.charAt(indice) == '-')
+		{
 			indiceInicial = indice + 1;
-			if (codigo.charAt(indiceInicial) == '-'){
+			if (indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == '-')
+			{
 				indiceInicial++;
-				if (indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial))){
+				if (indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial)))
+				{
 					do
 						indiceInicial++;
 					while(indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial)));
-					if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '-'){
+
+					//Configuramos extension de la cadena
+					if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '.')
+					{
 						indiceInicial++;
-						if(indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == '-'){
+						if(indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == 'L' || indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == 'T' || indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == 'N')
+						{
+							do
+								indiceInicial++;
+							while(indiceInicial < codigo.length() && esLetra(codigo.charAt(indiceInicial)));
+						}else
+						{
+							if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '-')
+							{
+								indiceInicial++;
+								if(indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == '-')
+								{
+									indiceInicial++;
+									lexema = codigo.substring(indice, indiceInicial);
+									Token token = new Token (lexema, Token.OPERADORCADENA, indiceInicial);
+									return token;
+								}
+							}
+						}
+					}else
+					{
+						if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '-')
+						{
+							indiceInicial++;
+							if(indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == '-')
+							{
+								indiceInicial++;
+								lexema = codigo.substring(indice, indiceInicial);
+								Token token = new Token (lexema, Token.OPERADORCADENA, indiceInicial);
+								return token;
+							}
+						}
+
+					}
+					//-----------------
+
+					if(indiceInicial < codigo.length() &&codigo.charAt(indiceInicial) == '-')
+					{
+						indiceInicial++;
+						if(indiceInicial < codigo.length() && codigo.charAt(indiceInicial) == '-')
+						{
 							indiceInicial++;
 							lexema = codigo.substring(indice, indiceInicial);
 							Token token = new Token (lexema, Token.OPERADORCADENA, indiceInicial);
